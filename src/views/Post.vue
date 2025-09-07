@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { usePost } from '@/composables/usePost'
-import { useUser } from '@/composables/useUser'
+import { useResource } from '@/composables/useResource'
 import { watch } from 'vue'
+import type { Post } from '@/types/post'
+import type { User } from '@/types/user'
 
-const { post, fetchOne } = usePost()
+const { item: post, fetchOne } = useResource<Post>('posts')
+const { item: user, fetchOne: fetchUser } = useResource<User>('users')
 
 const { params } = useRoute();
 const postId = +params.id
 
 fetchOne(postId)
 
-const { user, fetchOne: fetchUser } = useUser()
+// const { user, fetchOne: fetchUser } = useUser()
 
 watch(() => ({ ...post.value }), (newPost, oldPost, onCleanup) => {
   const controller = new AbortController()
