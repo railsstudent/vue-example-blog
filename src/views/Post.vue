@@ -1,18 +1,30 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
 import { usePost } from '@/composables/usePost'
+import { useUser } from '@/composables/useUser'
+import { watch } from 'vue'
 
 const { post, fetchOne } = usePost()
 
 const { params } = useRoute();
 const postId = +params.id
-console.log(postId)
 
 fetchOne(postId)
 
-const user = {
-  name: 'Leanne Graham',
-}
+const { user, fetchOne: fetchUser } = useUser()
+
+watch(() => ({ ...post.value }), (newPost, oldPost, onCleanup) => {
+  const controller = new AbortController()
+
+  if (newPost?.userId) {
+    fetchUser(newPost.userId, controller.signal)
+  }
+
+  onCleanup(() => {
+    controller.abort()
+  })
+})
+
 </script>
 
 <template>
@@ -21,5 +33,4 @@ const user = {
     <div class="text-gray-500 mb-10">by {{ user.name }}</div>
     <div class="mb-10">{{ post.body }}</div>
   </div>
-  <a href="/" class="text-blue-500 underline mt-10 inline-block">Back to home</a>
 </template>
