@@ -1,3 +1,9 @@
+<script setup lang="ts">
+import type { Post } from '@/types/post';
+
+const { post } = defineProps<{ post: Post }>()
+</script>
+
 <template>
   <div
     class="flex m-2 gap-2 items-center shadow-md w-1/4 flex-grow rounded overflow-hidden"
@@ -9,9 +15,3 @@
     </router-link>
   </div>
 </template>
-<script setup lang="ts">
-const props = defineProps({
-  post: Object,
-})
-const post = { ...props.post }
-</script>
