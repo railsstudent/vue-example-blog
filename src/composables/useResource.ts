@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+import { usePageRequests } from '@/composables/userPageRequests'
 
 export function useResource<T>(resource: string) {
   const items = ref<T[]>([])
@@ -6,18 +7,16 @@ export function useResource<T>(resource: string) {
 
   const baseUrl = `https://jsonplaceholder.typicode.com/${resource}`
 
-  function fetchAll(signal?: AbortSignal) {
-    return fetch(baseUrl, { signal })
-      .then((response) => response.json() as Promise<T[]>)
-      .then((data) => (items.value = data))
-      .catch((err) => alert(err))
+  const { makeRequest } = usePageRequests()
+
+  async function fetchAll(signal?: AbortSignal) {
+    const data = await makeRequest(baseUrl, signal)
+    items.value = (data || []) as T[]
   }
 
-  function fetchOne(id: number, signal?: AbortSignal) {
-    return fetch(`${baseUrl}/${id}`, { signal })
-      .then((response) => response.json() as Promise<T>)
-      .then((data) => (item.value = data))
-      .catch((err) => alert(err))
+  async function fetchOne(id: number, signal?: AbortSignal) {
+    const data = await makeRequest(`${baseUrl}/${id}`, signal)
+    item.value = data ? (data as T) : undefined
   }
 
   return {
