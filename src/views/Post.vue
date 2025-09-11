@@ -11,9 +11,8 @@ const { item: post, fetchOne } = useResource<Post>('posts')
 const { item: user, fetchOne: fetchUser } = useResource<User>('users')
 
 const { params } = useRoute();
-const postId = +params.id
 
-fetchOne(postId)
+fetchOne(+params.id)
 
 watch(() => ({ ...post.value }), (newPost, oldPost, onCleanup) => {
   const controller = new AbortController()
