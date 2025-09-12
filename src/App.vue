@@ -1,6 +1,8 @@
 <template>
   <nav class="p-5 bg-green-400 text-white mb-10">
-    <router-link :to="{ name: 'Home' }"><span class="text-2xl">Snazzy Fake Blog</span></router-link>
+    <router-link :to="{ name: 'Home' }"
+      ><span class="text-2xl">Snazzy Fake Blog (Vue 3 ver.)</span></router-link
+    >
   </nav>
   <div class="container">
     <router-view></router-view>
