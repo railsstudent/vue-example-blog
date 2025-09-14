@@ -20,6 +20,17 @@ const {
 } = useFetch<User>(userUrl, { refetch: true, immediate: false }).json()
 
 const isFetching = computed(() => isFetchingPost.value || isFetchingUser.value)
+const error = computed(() => {
+  if (errorPost.value) {
+    return errorPost instanceof Error ? errorPost.message : 'Error retrieving a post.'
+  }
+
+  if (errorUser.value) {
+    return errorUser instanceof Error ? errorUser.message : 'Error retrieving a user.'
+  }
+
+  return ''
+})
 
 watch(
   () => ({ ...post.value }),
@@ -29,9 +40,7 @@ watch(
 
 <template>
   <div v-if="isFetching" class="text-center my-10">Loading...</div>
-  <div v-if="errorPost || errorUser" class="text-center my-10">
-    Error{{ errorPost || errorUser }}
-  </div>
+  <div v-if="error" class="text-center my-10">{{ error }}</div>
   <div v-if="post && user" class="mb-10">
     <h1 class="text-3xl">{{ post.title }}</h1>
     <div class="text-gray-500 mb-10">by {{ user?.name }}</div>
