@@ -43,7 +43,7 @@ watch(
   <div v-if="error" class="text-center my-10">{{ error }}</div>
   <div v-if="post && user" class="mb-10">
     <h1 class="text-3xl">{{ post.title }}</h1>
-    <div class="text-gray-500 mb-10">by {{ user?.name }}</div>
+    <div class="text-gray-500 mb-10">by {{ user.name }}</div>
     <div class="mb-10">{{ post.body }}</div>
   </div>
 </template>
