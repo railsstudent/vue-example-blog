@@ -1,14 +1,13 @@
 <script setup lang="ts">
+import { postsUrl, usersUrl } from '@/constants/apiEndpoints'
 import type { Post } from '@/types/post'
 import type { User } from '@/types/user'
 import { useFetch } from '@vueuse/core'
 import { computed, shallowRef, watch } from 'vue'
 import { useRoute } from 'vue-router'
 
-const baseUrl = 'https://jsonplaceholder.typicode.com'
-
 const { params } = useRoute()
-const url = `${baseUrl}/posts/${params.id}`
+const url = `${postsUrl}/${params.id}`
 
 const { data: post, isFetching: isFetchingPost, error: errorPost } = useFetch<Post>(url).json()
 
@@ -24,7 +23,7 @@ const isFetching = computed(() => isFetchingPost.value || isFetchingUser.value)
 
 watch(
   () => ({ ...post.value }),
-  ({ userId = undefined }) => (userUrl.value = userId ? `${baseUrl}/users/${userId}` : ''),
+  ({ userId = undefined }) => (userUrl.value = userId ? `${usersUrl}/${userId}` : ''),
 )
 </script>
 

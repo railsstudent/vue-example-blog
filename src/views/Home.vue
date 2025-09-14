@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import type { Post } from '@/types/post'
-import { useFetch } from '@vueuse/core'
-import PostCard from '../components/PostCard.vue'
+import PostCard from '@/components/PostCard.vue';
+import { postsUrl } from '@/constants/apiEndpoints';
+import type { Post } from '@/types/post';
+import { useFetch } from '@vueuse/core';
 
 const {
   data: posts,
   isFetching,
   error,
-} = useFetch<Post[]>('https://jsonplaceholder.typicode.com/posts').json()
+} = useFetch<Post[]>(postsUrl).json()
 </script>
 
 <template>
